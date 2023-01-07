@@ -401,119 +401,120 @@
                 "updatedAt": "2023-01-07T01:48:25.289Z",
                 "__v": 0
             }
-        ```
+            ```
+            
         - Add the GET method to index.js
             ```shell
-            if(method === "GET"){
-                try {
-                    const products = await Product.find();
-                    res.status(200).json(products)
-                } catch(err) {
-                    res.status(500).json(err)
+                if(method === "GET"){
+                    try {
+                        const products = await Product.find();
+                        res.status(200).json(products)
+                    } catch(err) {
+                        res.status(500).json(err)
+                    }
                 }
-            }
             ```
-        - GET: localhost/3000/api/products
-        - STATUS: 200 OK
+            - GET: localhost/3000/api/products
+            - STATUS: 200 OK
     
 
     1.  **pages >> index.js**
 
-    - Fetch data from API to the Frontend using axios and getServerSideProps 
-    ```shell
-    yarn add axios
-    ```
+        - Fetch data from API to the Frontend using axios and getServerSideProps 
+            ```shell
+                yarn add axios
+            ```
 
-    - Add getServerSideProps at the bottom, import axios, add {pizzaList} as props and pass it to <PizzaList/> component
-    ```shell
-    import Head from 'next/head'
-    import Image from 'next/image'
-    import Featured from '../components/Featured'
-    import PizzaList from '../components/PizzaList'
-    import styles from '../styles/Home.module.css'
-    import axios from 'axios'
+        - Add getServerSideProps at the bottom, import axios, add {pizzaList} as props and pass it to <PizzaList/> component
+            ```shell
+            import Head from 'next/head'
+            import Image from 'next/image'
+            import Featured from '../components/Featured'
+            import PizzaList from '../components/PizzaList'
+            import styles from '../styles/Home.module.css'
+            import axios from 'axios'
 
-    export default function Home({ pizzaList }) {
-    return (
-        <div className={styles.container}>
-        <Head>
-            <title>Finch Restaurant</title>
-            <meta name="description" content="Best Restaurant in Cebu" />
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Featured/>
-        <PizzaList pizzaList={pizzaList}/>
-        </div>
-    )
-    }
+            export default function Home({ pizzaList }) {
+            return (
+                <div className={styles.container}>
+                <Head>
+                    <title>Finch Restaurant</title>
+                    <meta name="description" content="Best Restaurant in Cebu" />
+                    <link rel="icon" href="/favicon.ico" />
+                </Head>
+                <Featured/>
+                <PizzaList pizzaList={pizzaList}/>
+                </div>
+            )
+            }
 
-    export const getServerSideProps = async () => {
-    const res = await axios.get("http://localhost:3000/api/products");
-    return {
-        props:{
-        pizzaList: res.data,
-        }
-    }
-    }
-    ```
-    - Go to PizzaList component
-    ```shell
-        --📁components
-            --PizzaList.jsx
-    ```
-    ```shell
-    import styles from "../styles/PizzaList.module.css";
-    import PizzaCard from "./PizzaCard"
+            export const getServerSideProps = async () => {
+            const res = await axios.get("http://localhost:3000/api/products");
+            return {
+                props:{
+                pizzaList: res.data,
+                }
+            }
+            }
+            ```
 
-    const PizzaList = ({ pizzaList }) => {
-    return (
-        <div className={styles.container}>
-        <h1 className={styles.title}>THE BEST PIZZA IN TOWN</h1>
-        <p className={styles.desc}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut blandit arcu
-            in pretium molestie. Interdum et malesuada fames acme. Lorem ipsum dolor
-            sit amet, consectetur adipiscing elit.
-        </p>
-        <div className={styles.wrapper}>
-            {pizzaList.map((pizza) => (
-            <PizzaCard pizza={pizza} key={pizza._id}/>
-            ))}
-        </div>
-        </div>
-    );
-    };
+        - Go to PizzaList component
+            ```shell
+                --📁components
+                    --PizzaList.jsx
+            ```
+            ```shell
+            import styles from "../styles/PizzaList.module.css";
+            import PizzaCard from "./PizzaCard"
 
-    export default PizzaList;
+            const PizzaList = ({ pizzaList }) => {
+            return (
+                <div className={styles.container}>
+                <h1 className={styles.title}>THE BEST PIZZA IN TOWN</h1>
+                <p className={styles.desc}>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut blandit arcu
+                    in pretium molestie. Interdum et malesuada fames acme. Lorem ipsum dolor
+                    sit amet, consectetur adipiscing elit.
+                </p>
+                <div className={styles.wrapper}>
+                    {pizzaList.map((pizza) => (
+                    <PizzaCard pizza={pizza} key={pizza._id}/>
+                    ))}
+                </div>
+                </div>
+            );
+            };
 
-    ```
+            export default PizzaList;
+            ```
+            
+        - Go to PizzaCard component
+            ```shell
+                --📁components
+                    --PizzaCard.jsx
+            ```
+            ```shell
+            import Image from "next/image";
+            import styles from "../styles/PizzaCard.module.css";
+            import Link from "next/link"
 
-    - Go to PizzaCard component
-    ```shell
-        --📁components
-            --PizzaCard.jsx
-    ```
-    ```shell
-    import Image from "next/image";
-    import styles from "../styles/PizzaCard.module.css";
-    import Link from "next/link"
+            const PizzaCard = ({ pizza }) => {
+            return (
+                <div className={styles.container}>
+                <Link href={`/product/${pizza._id}`} passHref >
+                    <Image src={pizza.img} alt="" width={200} height={200} />
+                </Link>
+                <h1 className={styles.title}>{pizza.title}</h1>
+                <span className={styles.price}>${pizza.prices[0]}</span>
+                <p className={styles.desc}>
+                    {pizza.desc}
+                </p>
+                </div>
+            );
+            };
 
-    const PizzaCard = ({ pizza }) => {
-    return (
-        <div className={styles.container}>
-        <Link href={`/product/${pizza._id}`} passHref >
-            <Image src={pizza.img} alt="" width={200} height={200} />
-        </Link>
-        <h1 className={styles.title}>{pizza.title}</h1>
-        <span className={styles.price}>${pizza.prices[0]}</span>
-        <p className={styles.desc}>
-            {pizza.desc}
-        </p>
-        </div>
-    );
-    };
-
-    export default PizzaCard;
-    ```
+            export default PizzaCard;
+            ```
     1.  **Order.js**
     ```shell
     ```
