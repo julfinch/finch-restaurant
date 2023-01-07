@@ -67,17 +67,21 @@
 1.  **Creating the Layout**
 
     Create image folder under public folder and put all the images there:
+    ```shell
     --📁public
         --📁img
             --bake.png
             --bg.png
+    ```
 
     Create components folder inside the root directory:
+    ```shell
     --📁root
         --📁components
             --Footer.jsx
             --Layout.js
             --Navbar.jsx
+    ```
 
     Inside Layout.js, paste the code
     ```shell
@@ -118,8 +122,10 @@
 1.  **Navbar.jsx**
 
     Create **Navbar.module.css** inside styles folder
+    ```shell
     --📁styles
         --Navbar.module.css
+    ```
 
     Import Navbar.module.css inside Navbar.jsx
     ```shell
@@ -129,8 +135,10 @@
 1.  **Featured.jsx**
 
     Create **Navbar.module.css** inside styles folder
+    ```shell
     --📁styles
         --Navbar.module.css
+    ```
 
     Import Navbar.module.css inside Navbar.jsx
     ```shell
@@ -178,8 +186,8 @@
         --📁root
             --📁util
                 --mongo.js
-    # Use URL instead of URI
-    # Use MONGO_URL instead of MONGODB_URL
+    - Use URL instead of URI
+    - Use MONGO_URL instead of MONGODB_URL
     ```shell
     import mongoose from 'mongoose'
 
@@ -231,10 +239,12 @@
     ```
 
 1.  **BACKEND - MODELS**
+    ```shell
     --📁root
         --📁models
             --Product.js
             --Order.js
+    ```
 
     1.  **Product.js**
     ```shell
@@ -305,6 +315,7 @@
     ```
 
 1.  **BACKEND - API**
+    ```shell
     --📁root
         --📁pages
             --📁api
@@ -312,12 +323,13 @@
                     --index.js
                 --📁products
                     --index.js
+    ```
 
     1.  **Set-up POSTMAN**
 
-    - POST: localhost/3000/api/products
-    - raw
-    - JSON
+        - POST: localhost/3000/api/products
+        - raw
+        - JSON
 
     ```shell
     {
@@ -444,8 +456,10 @@
     }
     ```
     - Go to PizzaList component
+    ```shell
         --📁components
             --PizzaList.jsx
+    ```
     ```shell
     import styles from "../styles/PizzaList.module.css";
     import PizzaCard from "./PizzaCard"
@@ -473,8 +487,10 @@
     ```
 
     - Go to PizzaCard component
+    ```shell
         --📁components
             --PizzaCard.jsx
+    ```
     ```shell
     import Image from "next/image";
     import styles from "../styles/PizzaCard.module.css";
