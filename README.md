@@ -67,14 +67,14 @@
 1.  **Creating the Layout**
 
     Create image folder under public folder and put all the images there:
-    --public
-        --img
+    --📁public
+        --📁img
             --bake.png
             --bg.png
 
     Create components folder inside the root directory:
-    --root
-        --components
+    --📁root
+        --📁components
             --Footer.jsx
             --Layout.js
             --Navbar.jsx
@@ -118,7 +118,7 @@
 1.  **Navbar.jsx**
 
     Create **Navbar.module.css** inside styles folder
-    --styles
+    --📁styles
         --Navbar.module.css
 
     Import Navbar.module.css inside Navbar.jsx
@@ -129,7 +129,7 @@
 1.  **Featured.jsx**
 
     Create **Navbar.module.css** inside styles folder
-    --styles
+    --📁styles
         --Navbar.module.css
 
     Import Navbar.module.css inside Navbar.jsx
@@ -150,388 +150,374 @@
     import styles from "../styles/Navbar.modules.css"
     ```
 
-### Setting up Redux and themes
+### BACKEND
 
-1.  **Create a scenes folder under src folder and then create 5 new folders. Inside them, create index.jsx**
+1.  **MONGODB ACCOUNT**
 
+    1.  Create a new project named **finch-restaurant**
+    1.  Under Network Access, add IP Address 0.0.0.0/0 to access in any network.
+    1.  Build Database > Free Shared > Create Cluster > Create User > Finish and Close
+    1.  Database > Connect > Connect your application > Copy the connection URL
+    1.  Create a .env in the root directory and paste the URL
     ```shell
-    --src
-        --scenes
-            --homePage
-                --index.jsx
-            --loginPage
-                --index.jsx
-                --Form.jsx
-            --navbar
-                --index.jsx
-            --profilePage
-                --index.jsx
-            --widgets
-                --index.jsx
+    MONGO_URL = xxxxxxx<ChangeThePassword>xxxxxmongodb.net/finch-restaurant?retryWritesxxxxxx
     ```
-1.  **Create 2 another folders under src folder called components and state.**
+    1.  Restart server
+    
+1.  **Install Monggose**
 
     ```shell
-    --src
-        --components
-        --state
+    yarn add mongoose
     ```
 
-1.  **Go to App.js and paste the codes.**
+1.  **Connect Mongoose for Next.js**
 
+    1.  Follow the instruction based on Vercel's repo: [LINK](https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/lib/dbConnect.js)
+    1.  Copy the content.
+    1.  Create a folder in the root named **util** and create a file called **mongo.js**
+        --📁root
+            --📁util
+                --mongo.js
+    # Use URL instead of URI
+    # Use MONGO_URL instead of MONGODB_URL
     ```shell
-    import { BrowserRouter, Navigate, Routes, Route } from 'react-router-dom'
-    import HomePage from 'scenes/homePage'
-    import LoginPage from 'scenes/loginPage'
-    import ProfilePage from 'scenes/profilePage'
+    import mongoose from 'mongoose'
 
+    const MONGO_URL = process.env.MONGO_URL
 
-    function App() {
-    return (
-        <div className="app">
-            <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/profile/:userId" element={<ProfilePage />} />
-            </Routes>
-            </BrowserRouter>
-        </div>
-    );
+    if (!MONGO_URL) {
+    throw new Error(
+        'Please define the MONGO_URL environment variable inside .env.local'
+    )
     }
 
-    export default App;
-    ```
+    /**
+    * Global is used here to maintain a cached connection across hot reloads
+    * in development. This prevents connections growing exponentially
+    * during API Route usage.
+    */
+    let cached = global.mongoose
 
-1.  **Under state folder, create index.js and set all the states for the app**
+    if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null }
+    }
 
-    ```shell
-    import { createSlice } from "@reduxjs/toolkit";
+    async function dbConnect() {
+    if (cached.conn) {
+        return cached.conn
+    }
 
-    const initialState = {
-    mode: "light",
-    user: null,
-    token: null,
-    posts: [],
-    };
-
-    export const authSlice = createSlice({
-    name: "auth",
-    initialState,
-    reducers: {
-        setMode: (state) => {
-        state.mode = state.mode === "light" ? "dark" : "light";
-        },
-        setLogin: (state, action) => {
-        state.user = action.payload.user;
-        state.token = action.payload.token;
-        },
-        setLogout: (state) => {
-        state.user = null;
-        state.token = null;
-        },
-        setFriends: (state, action) => {
-        if (state.user) {
-            state.user.friends = action.payload.friends;
-        } else {
-            console.error("user friends non-existent :(");
+    if (!cached.promise) {
+        const opts = {
+        bufferCommands: false,
         }
-        },
-        setPosts: (state, action) => {
-        state.posts = action.payload.posts;
-        },
-        setPost: (state, action) => {
-        const updatedPosts = state.posts.map((post) => {
-            if (post._id === action.payload.post._id) return action.payload.post;
-            return post;
-        });
-        state.posts = updatedPosts;
-        },
-    },
-    });
 
-    export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
-    authSlice.actions;
-    export default authSlice.reducer;
+        cached.promise = mongoose.connect(MONGO_URL, opts).then((mongoose) => {
+        return mongoose
+        })
+    }
+
+    try {
+        cached.conn = await cached.promise
+    } catch (e) {
+        cached.promise = null
+        throw e
+    }
+
+    return cached.conn
+    }
+
+    export default dbConnect
     ```
 
-1.  **Under the src folder, open index.js and update the code by importing redux**
+1.  **BACKEND - MODELS**
+    --📁root
+        --📁models
+            --Product.js
+            --Order.js
 
+    1.  **Product.js**
     ```shell
-    import React from "react";
-    import ReactDOM from "react-dom/client";
-    import "./index.css";
-    import App from "./App";
-    import authReducer from "./state";
-    import { configureStore } from "@reduxjs/toolkit";
-    import { Provider } from "react-redux";
-    import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-    } from "redux-persist";
-    import storage from "redux-persist/lib/storage";
-    import { PersistGate } from "redux-persist/integration/react";
+    import mongoose from "mongoose";
 
-    const persistConfig = { key: "root", storage, version: 1 };
-    const persistedReducer = persistReducer(persistConfig, authReducer);
-    const store = configureStore({
-    reducer: persistedReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-        serializableCheck: {
-            ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    const ProductSchema = new mongoose.Schema({
+        title: {
+            type: String,
+            required: true,
+            maxlength: 60,
         },
-        }),
-    });
+        desc: {
+            type: String,
+            required: true,
+            maxlength: 200,
+        },
+        img: {
+            type: String,
+            required: true,
+        },
+        prices: {
+            type: [Number],
+            required: true,
+        },
+        extraOptions: {
+            type: [
+                {
+                    text: { type:String, required:true}, 
+                    price:{type:Number, required:true},
+                }
+            ],
+        },
+    },{timestamps: true})
 
-    const root = ReactDOM.createRoot(document.getElementById("root"));
-    root.render(
-    <React.StrictMode>
-        <Provider store={store}>
-        <PersistGate loading={null} persistor={persistStore(store)}>
-            <App />
-        </PersistGate>
-        </Provider>
-    </React.StrictMode>
-    );
+    export default mongoose.models.Product || mongoose.model("Product", ProductSchema);
     ```
 
-1.  **Under the src directory, create the theme.js.**
+    1.  **Order.js**
+    ```shell
+    import mongoose from "mongoose";
+
+    const OrderSchema = new mongoose.Schema({
+        customer: {
+            type: String,
+            required: true,
+            maxlength: 60,
+        },
+        address: {
+            type: String,
+            required: true,
+            maxlength: 200,
+        },
+        total: {
+            type: Number,
+            required: true,
+        },
+        status: {
+            type: Number,
+            default: 0,
+        },
+        method: {
+            type: Number,
+            required: true,
+        },
+    },{timestamps: true})
+
+    export default mongoose.models.Order || mongoose.model("Order", OrderSchema);
+    ```
+
+1.  **BACKEND - API**
+    --📁root
+        --📁pages
+            --📁api
+                --📁orders
+                    --index.js
+                --📁products
+                    --index.js
+
+    1.  **Set-up POSTMAN**
+
+    - POST: localhost/3000/api/products
+    - raw
+    - JSON
 
     ```shell
-    // color design tokens export
-    export const colorTokens = {
-    grey: {
-        0: "#FFFFFF",
-        10: "#F6F6F6",
-        50: "#F0F0F0",
-        100: "#E0E0E0",
-        200: "#C2C2C2",
-        300: "#A3A3A3",
-        400: "#858585",
-        500: "#666666",
-        600: "#4D4D4D",
-        700: "#333333",
-        800: "#1A1A1A",
-        900: "#0A0A0A",
-        1000: "#000000",
-    },
-    primary: {
-        50: "#E6FBFF",
-        100: "#CCF7FE",
-        200: "#99EEFD",
-        300: "#66E6FC",
-        400: "#33DDFB",
-        500: "#00D5FA",
-        600: "#00A0BC",
-        700: "#006B7D",
-        800: "#00353F",
-        900: "#001519",
-    },
-    };
+    {
+    "title": "pizza1",
+    "img": "/img/pizza.png",
+    "desc": "desc1",
+    "prices": [
+        12,
+        13,
+        14
+    ],
+    "extraOptions": [
+        {
+            "text": "Garlic sauce",
+            "price": 2
+        }
+    ]
+    }
+    ```
 
-    // mui theme settings
-    export const themeSettings = (mode) => {
-    return {
-        palette: {
-        mode: mode,
-        ...(mode === "dark"
-            ? {
-                // palette values for dark mode
-                primary: {
-                dark: colorTokens.primary[200],
-                main: colorTokens.primary[500],
-                light: colorTokens.primary[800],
-                },
-                neutral: {
-                dark: colorTokens.grey[100],
-                main: colorTokens.grey[200],
-                mediumMain: colorTokens.grey[300],
-                medium: colorTokens.grey[400],
-                light: colorTokens.grey[700],
-                },
-                background: {
-                default: colorTokens.grey[900],
-                alt: colorTokens.grey[800],
-                },
+    1.  **products >> index.js**
+
+    - Set-up POST method in the index.js of /products
+    ```shell
+    import dbConnect from "../../../util/mongo"
+    import Product from "../../../models/Product"
+
+
+    export default async function handler(req, res) {
+        const { method } = req;
+
+        dbConnect()
+
+        if(method === "GET"){
+
+        }
+        if(method === "POST"){
+            try{
+                const product = await Product.create(req.body);
+                res.status(201).json(product);
+            } catch(err) {
+                res.status(500).json(err)
             }
-            : {
-                // palette values for light mode
-                primary: {
-                dark: colorTokens.primary[700],
-                main: colorTokens.primary[500],
-                light: colorTokens.primary[50],
-                },
-                neutral: {
-                dark: colorTokens.grey[700],
-                main: colorTokens.grey[500],
-                mediumMain: colorTokens.grey[400],
-                medium: colorTokens.grey[300],
-                light: colorTokens.grey[50],
-                },
-                background: {
-                default: colorTokens.grey[10],
-                alt: colorTokens.grey[0],
-                },
-            }),
-        },
-        typography: {
-        fontFamily: ["Rubik", "sans-serif"].join(","),
-        fontSize: 12,
-        h1: {
-            fontFamily: ["Rubik", "sans-serif"].join(","),
-            fontSize: 40,
-        },
-        h2: {
-            fontFamily: ["Rubik", "sans-serif"].join(","),
-            fontSize: 32,
-        },
-        h3: {
-            fontFamily: ["Rubik", "sans-serif"].join(","),
-            fontSize: 24,
-        },
-        h4: {
-            fontFamily: ["Rubik", "sans-serif"].join(","),
-            fontSize: 20,
-        },
-        h5: {
-            fontFamily: ["Rubik", "sans-serif"].join(","),
-            fontSize: 16,
-        },
-        h6: {
-            fontFamily: ["Rubik", "sans-serif"].join(","),
-            fontSize: 14,
-        },
-        },
-    };
-    };
+        }
+    }
     ```
 
-1.  **Go to App.js and update the code with our new state and MUI them.**
-
+    - We should get a response from POSTMAN and MONGODB
+    - STATUS: 200 OK
     ```shell
-    import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
-    import HomePage from "scenes/homePage";
-    import LoginPage from "scenes/loginPage";
-    import ProfilePage from "scenes/profilePage";
-    import { useMemo } from "react";
-    import { useSelector } from "react-redux";
-    import { CssBaseline, ThemeProvider } from "@mui/material";
-    import { createTheme } from "@mui/material/styles";
-    import { themeSettings } from "./theme";
+    {
+        "title": "pizza1",
+        "desc": "desc1",
+        "img": "/img/pizza.png",
+        "prices": [
+            12,
+            13,
+            14
+        ],
+        "extraOptions": [
+            {
+                "text": "Garlic sauce",
+                "price": 2,
+                "_id": "63b8cf691d2e18b7acc443fe"
+            }
+        ],
+        "_id": "63b8cf691d2e18b7acc443fd",
+        "createdAt": "2023-01-07T01:48:25.289Z",
+        "updatedAt": "2023-01-07T01:48:25.289Z",
+        "__v": 0
+    }
+    ```
+    - Add the GET method to index.js
+    ```shell
+    if(method === "GET"){
+        try {
+            const products = await Product.find();
+            res.status(200).json(products)
+        } catch(err) {
+            res.status(500).json(err)
+        }
+    }
+    ```
+    - GET: localhost/3000/api/products
+    - STATUS: 200 OK
+    
+    1.  **pages >> index.js**
 
-    function App() {
-    const mode = useSelector((state) => state.mode);
-    const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
+    - Fetch data from API to the Frontend using axios and getServerSideProps 
+    ```shell
+    yarn add axios
+    ```
 
+    - Add getServerSideProps at the bottom, import axios, add {pizzaList} as props and pass it to <PizzaList/> component
+    ```shell
+    import Head from 'next/head'
+    import Image from 'next/image'
+    import Featured from '../components/Featured'
+    import PizzaList from '../components/PizzaList'
+    import styles from '../styles/Home.module.css'
+    import axios from 'axios'
+
+    export default function Home({ pizzaList }) {
     return (
-        <div className="app">
-        <BrowserRouter>
-            <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/profile/:userId" element={<ProfilePage />} />
-            </Routes>
-            </ThemeProvider>
-        </BrowserRouter>
+        <div className={styles.container}>
+        <Head>
+            <title>Finch Restaurant</title>
+            <meta name="description" content="Best Restaurant in Cebu" />
+            <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Featured/>
+        <PizzaList pizzaList={pizzaList}/>
         </div>
-    );
+    )
     }
 
-    export default App;
+    export const getServerSideProps = async () => {
+    const res = await axios.get("http://localhost:3000/api/products");
+    return {
+        props:{
+        pizzaList: res.data,
+        }
+    }
+    }
     ```
-
-1.  **NPM RUN START to check if there's any error**
-
+    - Go to PizzaList component
+        --📁components
+            --PizzaList.jsx
     ```shell
-    npm run start
-    ```
+    import styles from "../styles/PizzaList.module.css";
+    import PizzaCard from "./PizzaCard"
 
-### Setting up the pages and components
-
-1.  **Go to components folder and create a file called FlexBetween.jsx**
-
-    ```shell
-    import { Box } from "@mui/material";
-    import { styled } from "@mui/system";
-
-    const FlexBetween = styled(Box)({
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    });
-
-    export default FlexBetween;
-    ```
-
-1.  **Navbar**
-
-    ```shell
-    npx create-react-app client
-    ```
-
-1.  **LoginPage**
-
-    ```shell
-    npx create-react-app client
-    ```
-
-1.  **Add authorization on the pages, update the App.js by adding isAuth.**
-
-    ```shell
-    import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
-    import HomePage from "scenes/homePage";
-    import LoginPage from "scenes/loginPage";
-    import ProfilePage from "scenes/profilePage";
-    import { useMemo } from "react";
-    import { useSelector } from "react-redux";
-    import { CssBaseline, ThemeProvider } from "@mui/material";
-    import { createTheme } from "@mui/material/styles";
-    import { themeSettings } from "./theme";
-
-    function App() {
-    const mode = useSelector((state) => state.mode);
-    const theme = useMemo(() => createTheme(themeSettings(mode)), [mode]);
-    const isAuth = Boolean(useSelector((state) => state.token));
-
+    const PizzaList = ({ pizzaList }) => {
     return (
-        <div className="app">
-        <BrowserRouter>
-            <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Routes>
-                <Route path="/" element={<LoginPage />} />
-                <Route
-                path="/home"
-                element={isAuth ? <HomePage /> : <Navigate to="/" />}
-                />
-                <Route
-                path="/profile/:userId"
-                element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
-                />
-            </Routes>
-            </ThemeProvider>
-        </BrowserRouter>
+        <div className={styles.container}>
+        <h1 className={styles.title}>THE BEST PIZZA IN TOWN</h1>
+        <p className={styles.desc}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut blandit arcu
+            in pretium molestie. Interdum et malesuada fames acme. Lorem ipsum dolor
+            sit amet, consectetur adipiscing elit.
+        </p>
+        <div className={styles.wrapper}>
+            {pizzaList.map((pizza) => (
+            <PizzaCard pizza={pizza} key={pizza._id}/>
+            ))}
+        </div>
         </div>
     );
-    }
+    };
 
-    export default App;
+    export default PizzaList;
+
     ```
 
-1.  **Create the client folder.**
-
+    - Go to PizzaCard component
+        --📁components
+            --PizzaCard.jsx
     ```shell
-    npx create-react-app client
+    import Image from "next/image";
+    import styles from "../styles/PizzaCard.module.css";
+    import Link from "next/link"
+
+    const PizzaCard = ({ pizza }) => {
+    return (
+        <div className={styles.container}>
+        <Link href={`/product/${pizza._id}`} passHref >
+            <Image src={pizza.img} alt="" width={200} height={200} />
+        </Link>
+        <h1 className={styles.title}>{pizza.title}</h1>
+        <span className={styles.price}>${pizza.prices[0]}</span>
+        <p className={styles.desc}>
+            {pizza.desc}
+        </p>
+        </div>
+    );
+    };
+
+    export default PizzaCard;
     ```
+    1.  **Order.js**
+    ```shell
+    ```
+    1.  **Order.js**
+    ```shell
+    ```
+    1.  **Order.js**
+    ```shell
+    ```
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
