@@ -352,70 +352,71 @@
 
     1.  **products >> index.js**
 
-    - Set-up POST method in the index.js of /products
-    ```shell
-    import dbConnect from "../../../util/mongo"
-    import Product from "../../../models/Product"
+        - Set-up POST method in the index.js of /products
+            ```shell
+            import dbConnect from "../../../util/mongo"
+            import Product from "../../../models/Product"
 
 
-    export default async function handler(req, res) {
-        const { method } = req;
+            export default async function handler(req, res) {
+                const { method } = req;
 
-        dbConnect()
+                dbConnect()
 
-        if(method === "GET"){
+                if(method === "GET"){
 
-        }
-        if(method === "POST"){
-            try{
-                const product = await Product.create(req.body);
-                res.status(201).json(product);
-            } catch(err) {
-                res.status(500).json(err)
+                }
+                if(method === "POST"){
+                    try{
+                        const product = await Product.create(req.body);
+                        res.status(201).json(product);
+                    } catch(err) {
+                        res.status(500).json(err)
+                    }
+                }
             }
-        }
-    }
-    ```
+            ```
 
-    - We should get a response from POSTMAN and MONGODB
-    - STATUS: 200 OK
-    ```shell
-    {
-        "title": "pizza1",
-        "desc": "desc1",
-        "img": "/img/pizza.png",
-        "prices": [
-            12,
-            13,
-            14
-        ],
-        "extraOptions": [
+        - We should get a response from POSTMAN and MONGODB
+        - STATUS: 200 OK
+            ```shell
             {
-                "text": "Garlic sauce",
-                "price": 2,
-                "_id": "63b8cf691d2e18b7acc443fe"
+                "title": "pizza1",
+                "desc": "desc1",
+                "img": "/img/pizza.png",
+                "prices": [
+                    12,
+                    13,
+                    14
+                ],
+                "extraOptions": [
+                    {
+                        "text": "Garlic sauce",
+                        "price": 2,
+                        "_id": "63b8cf691d2e18b7acc443fe"
+                    }
+                ],
+                "_id": "63b8cf691d2e18b7acc443fd",
+                "createdAt": "2023-01-07T01:48:25.289Z",
+                "updatedAt": "2023-01-07T01:48:25.289Z",
+                "__v": 0
             }
-        ],
-        "_id": "63b8cf691d2e18b7acc443fd",
-        "createdAt": "2023-01-07T01:48:25.289Z",
-        "updatedAt": "2023-01-07T01:48:25.289Z",
-        "__v": 0
-    }
-    ```
-    - Add the GET method to index.js
-    ```shell
-    if(method === "GET"){
-        try {
-            const products = await Product.find();
-            res.status(200).json(products)
-        } catch(err) {
-            res.status(500).json(err)
-        }
-    }
-    ```
-    - GET: localhost/3000/api/products
-    - STATUS: 200 OK
+        ```
+        - Add the GET method to index.js
+            ```shell
+            if(method === "GET"){
+                try {
+                    const products = await Product.find();
+                    res.status(200).json(products)
+                } catch(err) {
+                    res.status(500).json(err)
+                }
+            }
+            ```
+        - GET: localhost/3000/api/products
+        - STATUS: 200 OK
     
+
     1.  **pages >> index.js**
 
     - Fetch data from API to the Frontend using axios and getServerSideProps 
