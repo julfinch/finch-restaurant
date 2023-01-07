@@ -23,9 +23,9 @@
 
   -Live Site URL: [https://jul-lactao.netlify.app/](https://jul-lactao.netlify.app/)
 
-## My Process
+# My Process
 
-### Install NEXT.js
+## Install NEXT.js
 
 1.  **Create the finch-restaurant folder.**
 1.  **Install Next.Js**
@@ -42,123 +42,120 @@
 
 1.  **Clean the installation**
 
-    pages > api > index.js
-    Delete everything except for the <Head> tag
-    ```shell
-    import Head from 'next/head'
-    import Image from 'next/image'
-    import styles from '../styles/Home.module.css'
+    - pages > api > index.js
+    - Delete everything except for the <Head> tag
+        ```shell
+        import Head from 'next/head'
+        import Image from 'next/image'
+        import styles from '../styles/Home.module.css'
 
-    export default function Home() {
-    return (
-        <div className={styles.container}>
-        <Head>
-            <title>Finch Restaurant in Cebu</title>
-            <meta name="description" content="Best Restaurant in Town" />
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
-            homepage
-        </div>
-    )
-    }
-
-    ```
+        export default function Home() {
+        return (
+            <div className={styles.container}>
+            <Head>
+                <title>Finch Restaurant in Cebu</title>
+                <meta name="description" content="Best Restaurant in Town" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+                homepage
+            </div>
+        )
+        }
+        ```
 
 1.  **Creating the Layout**
 
     Create image folder under public folder and put all the images there:
-    ```shell
-    --📁public
-        --📁img
-            --bake.png
-            --bg.png
-    ```
+        ```shell
+        --📁public
+            --📁img
+                --bake.png
+                --bg.png
+        ```
 
     Create components folder inside the root directory:
-    ```shell
-    --📁root
-        --📁components
-            --Footer.jsx
-            --Layout.js
-            --Navbar.jsx
-    ```
+        ```shell
+        --📁root
+            --📁components
+                --Footer.jsx
+                --Layout.js
+                --Navbar.jsx
+        ```
 
     Inside Layout.js, paste the code
-    ```shell
-    import React from 'react'
-    import Footer from './Footer'
-    import Navbar from './Navbar'
+        ```shell
+        import React from 'react'
+        import Footer from './Footer'
+        import Navbar from './Navbar'
 
-    const Layout = ({ children }) => {
-    return (
-        <>
-        <Navbar/>
-            {children}
-        <Footer/>
-        </>
-    )
-    }
-
-    export default Layout
-    ```
+        const Layout = ({ children }) => {
+        return (
+            <>
+            <Navbar/>
+                {children}
+            <Footer/>
+            </>
+        )
+        }
+        export default Layout
+        ```
 
     Inside _app.js, import the Layout and wrap the Component:
-    ```shell
-    import Layout from '../components/Layout'
-    import '../styles/globals.css'
+        ```shell
+        import Layout from '../components/Layout'
+        import '../styles/globals.css'
 
-    function MyApp({ Component, pageProps }) {
-    return (
-        <Layout>
-            <Component {...pageProps} />
-        </Layout>
-    )
-    
-    }
+        function MyApp({ Component, pageProps }) {
+        return (
+            <Layout>
+                <Component {...pageProps} />
+            </Layout>
+        )
+        }
 
-    export default MyApp
-    ```
+        export default MyApp
+        ```
 
 1.  **Navbar.jsx**
 
     Create **Navbar.module.css** inside styles folder
-    ```shell
-    --📁styles
-        --Navbar.module.css
-    ```
+        ```shell
+        --📁styles
+            --Navbar.module.css
+        ```
 
     Import Navbar.module.css inside Navbar.jsx
-    ```shell
-    import styles from "../styles/Navbar.modules.css"
-    ```
+        ```shell
+        import styles from "../styles/Navbar.modules.css"
+        ```
 
 1.  **Featured.jsx**
 
     Create **Navbar.module.css** inside styles folder
-    ```shell
-    --📁styles
-        --Navbar.module.css
-    ```
+        ```shell
+        --📁styles
+            --Navbar.module.css
+        ```
 
     Import Navbar.module.css inside Navbar.jsx
-    ```shell
-    import styles from "../styles/Navbar.modules.css"
-    ```
+        ```shell
+        import styles from "../styles/Navbar.modules.css"
+        ```
 
 1.  **PizzaList.jsx**
 
     Import Navbar.module.css inside Navbar.jsx
-    ```shell
-    import styles from "../styles/Navbar.modules.css"
-    ```
+        ```shell
+        import styles from "../styles/Navbar.modules.css"
+        ```
 1.  **PizzaCard.jsx**
 
     Import Navbar.module.css inside Navbar.jsx
-    ```shell
-    import styles from "../styles/Navbar.modules.css"
-    ```
+        ```shell
+        import styles from "../styles/Navbar.modules.css"
+        ```
 
-### BACKEND
+## BACKEND
 
 1.  **MONGODB ACCOUNT**
 
@@ -167,9 +164,9 @@
     1.  Build Database > Free Shared > Create Cluster > Create User > Finish and Close
     1.  Database > Connect > Connect your application > Copy the connection URL
     1.  Create a .env in the root directory and paste the URL
-    ```shell
-    MONGO_URL = xxxxxxx<ChangeThePassword>xxxxxmongodb.net/finch-restaurant?retryWritesxxxxxx
-    ```
+        ```shell
+        MONGO_URL = xxxxxxx<ChangeThePassword>xxxxxmongodb.net/finch-restaurant?retryWritesxxxxxx
+        ```
     1.  Restart server
     
 1.  **Install Monggose**
@@ -183,60 +180,62 @@
     1.  Follow the instruction based on Vercel's repo: [LINK](https://github.com/vercel/next.js/blob/canary/examples/with-mongodb-mongoose/lib/dbConnect.js)
     1.  Copy the content.
     1.  Create a folder in the root named **util** and create a file called **mongo.js**
+        ```shell
         --📁root
             --📁util
                 --mongo.js
-    - Use URL instead of URI
-    - Use MONGO_URL instead of MONGODB_URL
-    ```shell
-    import mongoose from 'mongoose'
+        ```
+        - Use URL instead of URI
+        - Use MONGO_URL instead of MONGODB_URL
+        ```shell
+        import mongoose from 'mongoose'
 
-    const MONGO_URL = process.env.MONGO_URL
+        const MONGO_URL = process.env.MONGO_URL
 
-    if (!MONGO_URL) {
-    throw new Error(
-        'Please define the MONGO_URL environment variable inside .env.local'
-    )
-    }
-
-    /**
-    * Global is used here to maintain a cached connection across hot reloads
-    * in development. This prevents connections growing exponentially
-    * during API Route usage.
-    */
-    let cached = global.mongoose
-
-    if (!cached) {
-    cached = global.mongoose = { conn: null, promise: null }
-    }
-
-    async function dbConnect() {
-    if (cached.conn) {
-        return cached.conn
-    }
-
-    if (!cached.promise) {
-        const opts = {
-        bufferCommands: false,
+        if (!MONGO_URL) {
+        throw new Error(
+            'Please define the MONGO_URL environment variable inside .env.local'
+        )
         }
 
-        cached.promise = mongoose.connect(MONGO_URL, opts).then((mongoose) => {
-        return mongoose
-        })
-    }
+        /**
+        * Global is used here to maintain a cached connection across hot reloads
+        * in development. This prevents connections growing exponentially
+        * during API Route usage.
+        */
+        let cached = global.mongoose
 
-    try {
-        cached.conn = await cached.promise
-    } catch (e) {
-        cached.promise = null
-        throw e
-    }
+        if (!cached) {
+        cached = global.mongoose = { conn: null, promise: null }
+        }
 
-    return cached.conn
-    }
+        async function dbConnect() {
+        if (cached.conn) {
+            return cached.conn
+        }
 
-    export default dbConnect
-    ```
+        if (!cached.promise) {
+            const opts = {
+            bufferCommands: false,
+            }
+
+            cached.promise = mongoose.connect(MONGO_URL, opts).then((mongoose) => {
+            return mongoose
+            })
+        }
+
+        try {
+            cached.conn = await cached.promise
+        } catch (e) {
+            cached.promise = null
+            throw e
+        }
+
+        return cached.conn
+        }
+
+        export default dbConnect
+        ```
 
 1.  **BACKEND - MODELS**
     ```shell
@@ -247,72 +246,72 @@
     ```
 
     1.  **Product.js**
-    ```shell
-    import mongoose from "mongoose";
+        ```shell
+        import mongoose from "mongoose";
 
-    const ProductSchema = new mongoose.Schema({
-        title: {
-            type: String,
-            required: true,
-            maxlength: 60,
-        },
-        desc: {
-            type: String,
-            required: true,
-            maxlength: 200,
-        },
-        img: {
-            type: String,
-            required: true,
-        },
-        prices: {
-            type: [Number],
-            required: true,
-        },
-        extraOptions: {
-            type: [
-                {
-                    text: { type:String, required:true}, 
-                    price:{type:Number, required:true},
-                }
-            ],
-        },
-    },{timestamps: true})
+        const ProductSchema = new mongoose.Schema({
+            title: {
+                type: String,
+                required: true,
+                maxlength: 60,
+            },
+            desc: {
+                type: String,
+                required: true,
+                maxlength: 200,
+            },
+            img: {
+                type: String,
+                required: true,
+            },
+            prices: {
+                type: [Number],
+                required: true,
+            },
+            extraOptions: {
+                type: [
+                    {
+                        text: { type:String, required:true}, 
+                        price:{type:Number, required:true},
+                    }
+                ],
+            },
+        },{timestamps: true})
 
-    export default mongoose.models.Product || mongoose.model("Product", ProductSchema);
-    ```
+        export default mongoose.models.Product || mongoose.model("Product", ProductSchema);
+        ```
 
     1.  **Order.js**
-    ```shell
-    import mongoose from "mongoose";
+        ```shell
+        import mongoose from "mongoose";
 
-    const OrderSchema = new mongoose.Schema({
-        customer: {
-            type: String,
-            required: true,
-            maxlength: 60,
-        },
-        address: {
-            type: String,
-            required: true,
-            maxlength: 200,
-        },
-        total: {
-            type: Number,
-            required: true,
-        },
-        status: {
-            type: Number,
-            default: 0,
-        },
-        method: {
-            type: Number,
-            required: true,
-        },
-    },{timestamps: true})
+        const OrderSchema = new mongoose.Schema({
+            customer: {
+                type: String,
+                required: true,
+                maxlength: 60,
+            },
+            address: {
+                type: String,
+                required: true,
+                maxlength: 200,
+            },
+            total: {
+                type: Number,
+                required: true,
+            },
+            status: {
+                type: Number,
+                default: 0,
+            },
+            method: {
+                type: Number,
+                required: true,
+            },
+        },{timestamps: true})
 
-    export default mongoose.models.Order || mongoose.model("Order", OrderSchema);
-    ```
+        export default mongoose.models.Order || mongoose.model("Order", OrderSchema);
+        ```
 
 1.  **BACKEND - API**
     ```shell
@@ -487,7 +486,7 @@
 
             export default PizzaList;
             ```
-            
+
         - Go to PizzaCard component
             ```shell
                 --📁components
