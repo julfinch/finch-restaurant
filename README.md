@@ -65,7 +65,8 @@
 
 1.  **Creating the Layout**
 
-    Create image folder under public folder and put all the images there:
+    - Create image folder under public folder and put all the images there:
+
         ```shell
         --📁public
             --📁img
@@ -73,7 +74,8 @@
                 --bg.png
         ```
 
-    Create components folder inside the root directory:
+    - Create components folder inside the root directory:
+
         ```shell
         --📁root
             --📁components
@@ -82,7 +84,8 @@
                 --Navbar.jsx
         ```
 
-    Inside Layout.js, paste the code
+    - Inside Layout.js, paste the code
+
         ```shell
         import React from 'react'
         import Footer from './Footer'
@@ -100,7 +103,7 @@
         export default Layout
         ```
 
-    Inside _app.js, import the Layout and wrap the Component:
+    - Inside _app.js, import the Layout and wrap the Component:
         ```shell
         import Layout from '../components/Layout'
         import '../styles/globals.css'
@@ -118,39 +121,39 @@
 
 1.  **Navbar.jsx**
 
-    Create **Navbar.module.css** inside styles folder
+    - Create **Navbar.module.css** inside styles folder
         ```shell
         --📁styles
             --Navbar.module.css
         ```
 
-    Import Navbar.module.css inside Navbar.jsx
+    - Import Navbar.module.css inside Navbar.jsx
         ```shell
         import styles from "../styles/Navbar.modules.css"
         ```
 
 1.  **Featured.jsx**
 
-    Create **Navbar.module.css** inside styles folder
+    - Create **Navbar.module.css** inside styles folder
         ```shell
         --📁styles
             --Navbar.module.css
         ```
 
-    Import Navbar.module.css inside Navbar.jsx
+    - Import Navbar.module.css inside Navbar.jsx
         ```shell
         import styles from "../styles/Navbar.modules.css"
         ```
 
 1.  **PizzaList.jsx**
 
-    Import Navbar.module.css inside Navbar.jsx
+    - Import Navbar.module.css inside Navbar.jsx
         ```shell
         import styles from "../styles/Navbar.modules.css"
         ```
 1.  **PizzaCard.jsx**
 
-    Import Navbar.module.css inside Navbar.jsx
+    - Import Navbar.module.css inside Navbar.jsx
         ```shell
         import styles from "../styles/Navbar.modules.css"
         ```
@@ -330,24 +333,24 @@
         - raw
         - JSON
 
-    ```shell
-    {
-    "title": "pizza1",
-    "img": "/img/pizza.png",
-    "desc": "desc1",
-    "prices": [
-        12,
-        13,
-        14
-    ],
-    "extraOptions": [
+        ```shell
         {
-            "text": "Garlic sauce",
-            "price": 2
+        "title": "pizza1",
+        "img": "/img/pizza.png",
+        "desc": "desc1",
+        "prices": [
+            12,
+            13,
+            14
+        ],
+        "extraOptions": [
+            {
+                "text": "Garlic sauce",
+                "price": 2
+            }
+        ]
         }
-    ]
-    }
-    ```
+        ```
 
     1.  **products >> index.js**
 
