@@ -420,9 +420,9 @@
             - STATUS: 200 OK
     
 
-    1.  **pages >> index.js**
+    1.  **pages >> index.js (HOME)**
 
-        - Fetch data from API to the Frontend using axios and getServerSideProps 
+        - Fetch data of all pizzaList from API to the HOME Frontend using axios and getServerSideProps 
             ```shell
                 yarn add axios
             ```
@@ -517,12 +517,91 @@
 
             export default PizzaCard;
             ```
-    1.  **Order.js**
-    ```shell
-    ```
-    1.  **Order.js**
-    ```shell
-    ```
+    1.  **pages >> product >> [id].js**
+
+        1. Fetch data of a single pizza product from API
+            ```shell
+
+            ```
+
+        1. **pages >> api >> products >> [id].js**
+            Create methods for CRUD 
+                ```shell
+                ```
+
+        1. Install Redux Toolkit to update cart icon 
+            ```shell
+            yarn add @reduxjs/toolkit redux react-redux
+            ```
+
+        1. **Create slice in redux.**
+            ```shell
+            --📁root
+                --📁redux
+                    --cartSlice.js
+                    --store.js
+            ```
+            - **cartSlice.js**
+                ```shell
+                import { createSlice } from '@reduxjs/toolkit';
+
+                const cartSlice = createSlice({
+                    name: "cart",
+                    initialState: {
+                        products: [],
+                        quantity: 0,
+                        total: 0,
+                    },
+                    reducers: {
+                        addProduct: (state, action) => {
+                            state.products.push(action.payload);
+                            state.total += action.payload.price * action.payload.quantity;
+                        },
+                        reset: (state) => {
+                            state = initialState;
+                        }
+                    }
+                })
+
+                export const {addProduct, reset} = cartSlice.actions;
+                export default cartSlice.reducer;
+                ```
+
+            - **store.js**
+                ```shell
+                import { configureStore } from "@reduxjs/toolkit";
+                import cartReducer from "./cartSlice";
+
+                export default configureStore({
+                    reducer: {
+                        cart: cartReducer,
+                    }
+                })
+                ```
+
+        1.  **Set Provider in _app.js**
+            ```shell
+            import Layout from '../components/Layout'
+            import '../styles/globals.css'
+            import store from '../redux/store'
+            import { Provider } from 'react-redux'
+
+            function MyApp({ Component, pageProps }) {
+            return (
+                <Provider store={store}>
+                <Layout>
+                    <Component {...pageProps} />
+                </Layout>
+                </Provider>
+            )
+            }
+
+            export default MyApp
+            ```   
+
+        1.  **Order.js**
+        ```shell
+        ```
     1.  **Order.js**
     ```shell
     ```
