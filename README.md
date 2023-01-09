@@ -525,7 +525,7 @@
             ```
 
         1. **pages >> api >> products >> [id].js**
-            Create methods for CRUD 
+            - Create methods for CRUD 
                 ```shell
                 ```
 
@@ -599,10 +599,53 @@
             export default MyApp
             ```   
 
-        1.  **Order.js**
-        ```shell
-        ```
+        1.  **Update Navbar.js so that cart will get the state of order quantity**
+
+                ```shell
+                import Image from "next/image";
+                import styles from "../styles/Navbar.module.css";
+                import { useSelector } from "react-redux";
+                import Link from "next/link";
+
+                const Navbar = () => {
+                const quantity = useSelector((state) => state.cart.quantity);
+                return (
+                    <div className={styles.container}>
+                    ..........................
+                    </div>
+                    <Link href="/cart" passHref>
+                        <div className={styles.item}>
+                        <div className={styles.cart}>
+                            <Image src="/img/cart.png" alt="" width="30px" height="30px" />
+                            <div className={styles.counter}>{quantity}</div>
+                        </div>
+                        </div>
+                    </Link>
+                    </div>
+                );
+                };
+
+                export default Navbar;
+                ```
+
+                
     1.  **Order.js**
+    ```shell
+    ```
+
+    1.  **Order.js**
+    ```shell
+    ```
+
+        1.  **Order.js**
+    ```shell
+    ```
+
+        1.  **Order.js**
+    ```shell
+    ```
+
+        1.  **Order.js**
     ```shell
     ```
 
