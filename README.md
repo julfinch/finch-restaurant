@@ -628,27 +628,272 @@
                 export default Navbar;
                 ```
 
+    1.  **Connect Paypal**
+        - Install Paypal
+            ```shell
+            yarn add @paypal/react-paypal-js
+            ```
+
+        - Follow the instruction based on Paypal's repo: [LINK](https://paypal.github.io/react-paypal-js/?path=/docs/example-paypalbuttons--default).
+
+        - We need to get the **client-id** and for that, go to [https://developer.paypal.com/dashboard/](https://developer.paypal.com/dashboard/) and create an account if you don't have a Paypal account. 
+
+        - Create a Sandbox account: [https://developer.paypal.com/dashboard/accounts](https://developer.paypal.com/dashboard/accounts). Create one Merchant Account then another one for Buyer Account.
+
+        - Create the application: [https://developer.paypal.com/dashboard/applications/sandbox](https://developer.paypal.com/dashboard/applications/sandbox)
+            - Create app
+            - App name: finch-restaurant
+            - Merchant - Accept payments as a merchant (seller)
+            - Choose the business account that you created (xxx@business.example.com)
+            - Create app
+            - Copy the **client-id** and paste in the cart.jsx
+
+        - Test the account by sending a fake money from personal account to the merchant account.
+            - Go to [https://developer.paypal.com/dashboard/accounts](https://developer.paypal.com/dashboard/accounts) and click the 3 dots and then **View/Edit account** to see credentials. Use the Email Id nad System Generated Password to sign in at the link below.
+            - Open a new tab  and sign in at [https://www.sandbox.paypal.com/signin](https://www.sandbox.paypal.com/signin) using the Merchant Account.
+            - You should see a fake $5,000 money in your account.
+            - Do the same using your personal account that you created but this time by signing in in another browser window on incognito mode.
+            - Go to the cart page of your order in localhost and click Paypal, pay using the personal account.
+            - You should see that the order amount was subtracted from your personal account and that amount was added to your merchant account plus some fees for paypal.
+
+        1.  **cart.jsx**
+
+            ```shell
+            ...updated CART.JSX code here
+            ```
+
+        1. **pages >> api >> orders >> [id].js**
+            - Create methods for CRUD: **pages >> api >> orders >> index.js**
+                ```shell
+                import dbConnect from "../../../util/mongo";
+                import Order from "../../../models/Order";
+
+                const handler = async (req, res) => {
+                    const { method } = req;
+
+                    await dbConnect();
+
+                    if(method === "GET"){
+                        try {
+                            const orders = await Order.find();
+                            res.status(201).json(orders);
+                        } catch(err) {
+                            res.status(500).json(err);
+                        }
+                    }
+                    if(method === "POST"){
+                        try {
+                            const order = await Order.create(req.body);
+                            res.status(201).json(order);
+                        } catch(err) {
+                            res.status(500).json(err);
+                        }
+                    }
+                };
+
+                export default handler;
+                ```
+
+            - Update reset reducer from **cartSlice.js** 
+                ```shell
+                ```
+
+            - Create methods for CRUD: **pages >> api >> orders >> [id].js**
+                ```shell
+                import dbConnect from "../../../util/mongo";
+                import Order from "../../../models/Order";
+
+                const handler = async(req, res) => {
+                    const { method, query:{id} } = req;
+
+                    await dbConnect();
+
+                    if(method === "GET"){
+                        try {
+                            const order = await Order.findById(id);
+                            res.status(200).json(order);
+                        } catch(err) {
+                            res.status(500).json(err)
+                        }
+                    }
+                    if(method === "PUT"){}
+                    if(method === "DELETE"){}
+                }
+
+                export default handler;
+                ```
+                - Add **getServerSideProps** at the bottom of Order page: **pages >> orders >> [id].jsx** and update the props
+
+                    ```shell
+                    import styles from "../../styles/Order.module.css";
+                    import Image from "next/image";
+                    import axios from "axios";
+
+                    const Order = ({order}) => {
+                    const status = order.status;
+
+                    const statusClass = (index) => {
+                        if (index - status < 1) return styles.done;
+                        if (index - status === 1) return styles.inProgress;
+                        if (index - status > 1) return styles.undone;
+                    };
+                    return (
+                        <div className={styles.container}>
+                        <div className={styles.left}>
+                            <div className={styles.row}>
+                            <table className={styles.table}>
+                                <tr className={styles.trTitle}>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Address</th>
+                                <th>Total</th>
+                                </tr>
+                                <tr className={styles.tr}>
+                                <td>
+                                    <span className={styles.id}>{order._id}</span>
+                                </td>
+                                <td>
+                                    <span className={styles.name}>{order.customer}</span>
+                                </td>
+                                <td>
+                                    <span className={styles.address}>{order.address}</span>
+                                </td>
+                                <td>
+                                    <span className={styles.total}>${order.total}</span>
+                                </td>
+                                </tr>
+                            </table>
+                            </div>
+                            <div className={styles.row}>
+                            <div className={statusClass(0)}>
+                                <Image src="/img/paid.png" width={30} height={30} alt="" />
+                                <span>Payment</span>
+                                <div className={styles.checkedIcon}>
+                                <Image
+                                    className={styles.checkedIcon}
+                                    src="/img/checked.png"
+                                    width={20}
+                                    height={20}
+                                    alt=""
+                                />
+                                </div>
+                            </div>
+                            <div className={statusClass(1)}>
+                                <Image src="/img/bake.png" width={30} height={30} alt="" />
+                                <span>Preparing</span>
+                                <div className={styles.checkedIcon}>
+                                <Image
+                                    className={styles.checkedIcon}
+                                    src="/img/checked.png"
+                                    width={20}
+                                    height={20}
+                                    alt=""
+                                />
+                                </div>
+                            </div>
+                            <div className={statusClass(2)}>
+                                <Image src="/img/bike.png" width={30} height={30} alt="" />
+                                <span>On the way</span>
+                                <div className={styles.checkedIcon}>
+                                <Image
+                                    className={styles.checkedIcon}
+                                    src="/img/checked.png"
+                                    width={20}
+                                    height={20}
+                                    alt=""
+                                />
+                                </div>
+                            </div>
+                            <div className={statusClass(3)}>
+                                <Image src="/img/delivered.png" width={30} height={30} alt="" />
+                                <span>Delivered</span>
+                                <div className={styles.checkedIcon}>
+                                <Image
+                                    className={styles.checkedIcon}
+                                    src="/img/checked.png"
+                                    width={20}
+                                    height={20}
+                                    alt=""
+                                />
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div className={styles.right}>
+                            <div className={styles.wrapper}>
+                            <h2 className={styles.title}>CART TOTAL</h2>
+                            <div className={styles.totalText}>
+                                <b className={styles.totalTextTitle}>Subtotal:</b>${order.total}
+                            </div>
+                            <div className={styles.totalText}>
+                                <b className={styles.totalTextTitle}>Discount:</b>$0.00
+                            </div>
+                            <div className={styles.totalText}>
+                                <b className={styles.totalTextTitle}>Total:</b>${order.total}
+                            </div>
+                            <button disabled className={styles.button}>
+                                PAID
+                            </button>
+                            </div>
+                        </div>
+                        </div>
+                    );
+                    };
+
+                    export const getServerSideProps = async ({params}) => {
+                    const res = await axios.get(`http://localhost:3000/api/orders/${params.id}`);
+                    return {
+                        props: { order: res.data },
+                    };
+                    };
+
+                    export default Order;
+
+                    ```
                 
-    1.  **Order.js**
+                - Proceed into creating the **OrderDetail.jsx** for Cash on Delivery.
+
+## ADMIN PAGE
+
+1.  **Create admin folder**
     ```shell
+    --📁pages
+        --📁admin
+            --index.jsx
+    ```
+1.  **Create Admin.module.css**
+
+1.  **Create index.jsx under admin**
+    ```shell
+    ...check the code in the repo
+    ```
+1.  Create DELETE method: **pages >> api >> products >> [id].js**
+    ```shell
+    if(method === "DELETE"){
+        try{
+            await Product.findByIdAndDelete(id);
+            res.status(201).json("The product has been deleted");
+        } catch(err) {
+            res.status(500).json(err)
+        }
+    }
     ```
 
-    1.  **Order.js**
+1.  Create UPDATE method for ORDER: **pages >> api >> order >> [id].js**
     ```shell
+    if(method === "PUT"){
+        try{
+            const order = await Order.findByIdAndUpdate(id,req.body, {new: true});
+            res.status(201).json(order);
+        } catch(err) {
+            res.status(500).json(err)
+        }
+    }
     ```
 
-        1.  **Order.js**
+1.  **Create Admin.module.css**
     ```shell
     ```
-
-        1.  **Order.js**
-    ```shell
-    ```
-
-        1.  **Order.js**
-    ```shell
-    ```
-
 
 
 
