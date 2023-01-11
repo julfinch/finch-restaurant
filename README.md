@@ -220,6 +220,8 @@
         if (!cached.promise) {
             const opts = {
             bufferCommands: false,
+            useUnifiedTopology: true,
+            UseNewUrlParser: true,
             }
 
             cached.promise = mongoose.connect(MONGO_URL, opts).then((mongoose) => {
@@ -891,67 +893,213 @@
     }
     ```
 
-1.  **Create Admin.module.css**
-    ```shell
-    ```
+1.  **Admin Log-in Page**
 
+    1. Create **login.js** inside **api folder** : **pages >> api >> login.js**
+        ```shell
+        import cookie from 'cookie';
 
+        const handler = (req, res) => {
+            if (req.method === "POST") {
+                const {username, password} = req.body;
+                if (
+                    username === process.env.ADMIN_USERNAME &&
+                    password === process.env.ADMIN_PASSWORD
+                ) {
+                    res.setHeader(
+                        "Set-Cookie",
+                        cookie.serialize("token", process.env.TOKEN, {
+                            maxAge: 60 * 60,
+                            sameSite: "strict",
+                            path: "/",
+                        })
+                    );
+                    res.status(200).json("Successful");
+                } else {
+                    res.status(400).json("Invalid Credentials");
+                }
+            }
+        };
 
+        export default handler;
+        ```
 
+    1.  **Create Username, Password , and Token in the .env file. We'll create one since this is a single page only and  nto a complex website with more roles**
+        ```shell
+        ADMIN_USERNAME = admin
+        ADMIN_PASSWORD = 123456
+        TOKEN = SWdw4CV||663Z{p3|ZXtP%0k6Ejj;F
+        ```
+        - Refresh the application after adding into .env file.
 
+    1.  **Create login.jsx under admin folder: pages >> admin >> login.jsx**
 
+        ```shell
+        import axios from "axios";
+        import { useRouter } from "next/router";
+        import { useState } from "react";
+        import styles from "../../styles/Login.module.css";
 
+        const Login = () => {
+        const [username, setUsername] = useState(null);
+        const [password, setPassword] = useState(null);
+        const [error, setError] = useState(false);
+        const router = useRouter();
 
+        const handleClick = async () => {
+            try {
+            await axios.post("http://localhost:3000/api/login", {
+                username,
+                password,
+            });
+            router.push("/admin");
+            } catch (err) {
+            setError(true);
+            }
+        };
 
+        return (
+            <div className={styles.container}>
+            <div className={styles.wrapper}>
+                <h1>Admin Dashboard</h1>
+                <input
+                placeholder="username"
+                className={styles.input}
+                onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                placeholder="password"
+                type="password"
+                className={styles.input}
+                onChange={(e) => setPassword(e.target.value)}
+                />
+                <button onClick={handleClick} className={styles.button}>
+                Sign In
+                </button>
+                {error && <span className={styles.error}>Wrong Credentials!</span>}
+            </div>
+            </div>
+        );
+        };
 
+        export default Login;
+        ```
 
+    1.  **Update getServerSideProps inside pages >> admin >> index.js**. This is for route protection so that anyone with no cookie can enter admin page and will be redirected to the login page. Use context **ctx** argument for getServerSideProps when using cookies.
 
+        ```shell
+        export const getServerSideProps = async (ctx) => {
+        const myCookie = ctx.req?.cookies || "";
 
+        if (myCookie.token !== process.env.TOKEN) {
+            return {
+            redirect: {
+                destination: "/admin/login",
+                permanent: false,
+            },
+            };
+        }
 
+        const productRes = await axios.get("http://localhost:3000/api/products");
+        const orderRes = await axios.get("http://localhost:3000/api/orders");
 
-### Install Dependencies
+        return {
+            props: {
+            orders: orderRes.data,
+            products: productRes.data,
+            },
+        };
+        };
+        ```
 
-```js
-"dependencies": {
-    "classnames": "^2.3.1",
-    "eslint": "^8.20.0",
-    "framer-motion": "^6.5.1",
-    "gatsby": "^4.19.2",
-    "gatsby-plugin-gatsby-cloud": "^4.19.0",
-    "gatsby-plugin-image": "^2.19.0",
-    "gatsby-plugin-less": "^6.19.0",
-    "gatsby-plugin-manifest": "^4.19.0",
-    "gatsby-plugin-offline": "^5.19.0",
-    "gatsby-plugin-react-helmet": "^5.19.0",
-    "gatsby-plugin-sass": "^5.19.0",
-    "gatsby-plugin-sharp": "^4.19.0",
-    "gatsby-source-filesystem": "^4.19.0",
-    "gatsby-transformer-sharp": "^4.19.0",
-    "gsap": "^3.10.4",
-    "less": "^4.1.3",
-    "less-loader": "^11.0.0",
-    "locomotive-scroll": "^4.1.4",
-    "prop-types": "^15.8.1",
-    "react": "^18.1.0",
-    "react-dom": "^18.1.0",
-    "react-helmet": "^6.1.0",
-    "react-icons": "^4.4.0",
-    "react-loadable": "^5.5.0",
-    "sass": "^1.54.0",
-    "sharp": "0.30.7",
-    "smooth-scrollbar": "^8.7.5"
-  },
-```
+    1.  **Create AddButton.jsx components and render them inside pages >> index.js**
+        ```shell
+        import styles from "../styles/Add.module.css";
 
+        const AddButton = ({ setClose }) => {
+        return (
+            <div onClick={() => setClose(false)} className={styles.mainAddButton}>
+            Add New Pizza
+            </div>
+        );
+        };
 
-### Built with
+        export default AddButton;
+        ```
 
-- Semantic HTML5 markup
-- SASS
-- ReactJS
-- Gatsby
-- GSAP
-- Framer Motion
+    1.  **Create CLOUDINARY account**
+        - Go to Settings
+        - Upload
+        - Upload Preset Name : finch-restaurant
+        - Folder: finch-restaurant
+        - Unsigned
+        - Save
+
+    1.  **Create Add.jsx components and render them inside pages >> index.js**
+        ```shell
+        ```
+
+    1.  **Update getServerSideProps inside pages >> index.js and pass admin as prop to create the button. **
+        ```shell
+        import React, {useState} from 'react'
+        import Head from 'next/head'
+        import Image from 'next/image'
+        import Featured from '../components/Featured'
+        import PizzaList from '../components/PizzaList'
+        import Add from '../components/Add'
+        import AddButton from '../components/AddButton'
+        import styles from '../styles/Home.module.css'
+        import axios from 'axios'
+
+        export default function Home({ pizzaList, admin }) {
+        const [close, setClose] = useState(true);
+        return (
+            <div className={styles.container}>
+            <Head>
+                <title>Finch Restaurant</title>
+                <meta name="description" content="Best Restaurant in Cebu" />
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+            <Featured/>
+            {admin && <AddButton setClose={setClose}/>}
+            <PizzaList pizzaList={pizzaList}/>
+            {!close && <Add setClose={setClose}/>}
+            </div>
+        )
+        }
+
+        export const getServerSideProps = async (ctx) => {
+        const myCookie = ctx.req?.cookies || "";
+        let admin = false;
+
+        if(myCookie.token === process.env.TOKEN) {
+            admin = true;
+        }
+
+        const res = await axios.get("http://localhost:3000/api/products");
+        return {
+            props:{
+            pizzaList: res.data,
+            admin
+            }
+        }
+        }
+        ```
+
+    1.  **Update next.config.js** if an error regarding cloudinary occurs after adding a product.
+        ```shell
+        /** @type {import('next').NextConfig} */
+        const nextConfig = {
+        reactStrictMode: true,
+        swcMinify: true,
+        images: {
+            domains:["res.cloudinary.com"]
+        }
+        }
+
+        module.exports = nextConfig
+
+        ```
 
 ---
  
