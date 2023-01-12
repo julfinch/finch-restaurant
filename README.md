@@ -657,6 +657,8 @@
             - Do the same using your personal account that you created but this time by signing in in another browser window on incognito mode.
             - Go to the cart page of your order in localhost and click Paypal, pay using the personal account.
             - You should see that the order amount was subtracted from your personal account and that amount was added to your merchant account plus some fees for paypal.
+            - sb-lkgse24840259@personal.example.com
+            - G:&dgo/6
 
         1.  **cart.jsx**
 
