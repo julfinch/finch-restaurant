@@ -1,6 +1,6 @@
 # Alishan - Finch Tea
   -Live Site URL: [https://finch-tea.vercel.app/](https://finch-tea.vercel.app/)
-  
+
 # My Process
 
 ## Install NEXT.js
@@ -1078,9 +1078,7 @@
         }
 
         module.exports = nextConfig
-
         ```
-
 ---
  
 ## Author
