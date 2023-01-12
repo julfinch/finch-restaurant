@@ -1,6 +1,6 @@
 .container {
   height: calc(100vh - 100px);
-  background-color: #222;
+  background-color: #0C0B0E;
   display: flex;
 }
 
@@ -11,7 +11,7 @@
 }
 
 .item:last-child {
-  flex: 2;
+  flex: 1;
   padding: 50px;
   justify-content: space-between;
 }
@@ -31,6 +31,7 @@
 }
 
 .motto {
+  margin-top: -1px;
   color: rgb(211, 211, 211);
 }
 

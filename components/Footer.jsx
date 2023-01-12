@@ -5,46 +5,45 @@ const Footer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.item}>
-        <Image src="/img/bg.png" objectFit="cover" layout="fill" alt="" />
+        <Image src="/img/footer2.jpg" objectFit="contain" layout="fill" alt="" />
       </div>
       <div className={styles.item}>
         <div className={styles.card}>
-          <h2 className={styles.motto}>
-            OH YES, WE DID.THE LAMA PIZZA, WELL BAKED SLICE OF PIZZA.
-          </h2>
-        </div>
-        <div className={styles.card}>
-          <h1 className={styles.title}>FIND OUR RESTAURANTS</h1>
+          <h1 className={styles.title}>FIND OUR STORES</h1>
           <p className={styles.text}>
-            1654 R. Don Road #304.
-            <br /> NewYork, 85022
-            <br /> (602) 867-1010
+            Hanston Building
+            <br /> Ortigas
+            <br /> (0917) 165-2688
           </p>
           <p className={styles.text}>
-            2356 K. Laquie Rd #235.
-            <br /> NewYork, 85022
-            <br /> (602) 867-1011
+            Rockwell
+            <br /> (02) 79583644
           </p>
           <p className={styles.text}>
-            1614 E. Erwin St #104.
-            <br /> NewYork, 85022
-            <br /> (602) 867-1012
+            Ore Central
+            <br /> BGC, Taguig City
+            <br /> (0917) 180-8808
           </p>
           <p className={styles.text}>
-            1614 W. Caroll St #125.
-            <br /> NewYork, 85022
-            <br /> (602) 867-1013
+            Eton Tower
+            <br /> Makati City
+            <br /> (02) 7944-6802
+          </p>
+          <p className={styles.text}>
+            Scout Rallos
+            <br /> Quezon City
+            <br /> (02) 7-507-5356
           </p>
         </div>
         <div className={styles.card}>
           <h1 className={styles.title}>WORKING HOURS</h1>
           <p className={styles.text}>
             MONDAY UNTIL FRIDAY
-            <br /> 9:00 – 22:00
+            <br /> 10:00AM - 9:00PM
           </p>
           <p className={styles.text}>
             SATURDAY - SUNDAY
-            <br /> 12:00 – 24:00
+            <br /> 11:00AM - 8:00PM
           </p>
         </div>
       </div>

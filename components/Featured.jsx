@@ -5,9 +5,9 @@ import { useState } from "react";
 const Featured = () => {
   const [index, setIndex] = useState(0);
   const images = [
-    "/img/featured.png",
-    "/img/featured2.png",
-    "/img/featured3.png",
+    "/img/featured1.jpg",
+    "/img/featured2.jpg",
+    "/img/featured3.jpg",
   ];
 
   const handleArrow = (direction) =>{
@@ -27,7 +27,7 @@ const Featured = () => {
       <div className={styles.wrapper} style={{transform:`translateX(${-100*index}vw)`}}>
         {images.map((img, i) => (
           <div className={styles.imgContainer} key={i}>
-            <Image src={img} alt="" fill style={{objectFit:"contain"}} />
+            <Image src={img} alt="" fill style={{objectFit:"cover"}} />
           </div>
         ))}
       </div>
