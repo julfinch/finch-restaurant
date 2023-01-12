@@ -33,7 +33,7 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-  const res = await axios.get("https://finch-tea.vercel.app/api/products");
+  const res = await axios.get("http://finch-tea.vercel.app/api/products");
   return {
     props:{
       pizzaList: res.data,
