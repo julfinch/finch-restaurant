@@ -1,28 +1,6 @@
-# Finch Restaurant Frontend
-  -Live Site URL: [https://jul-lactao.netlify.app/](https://jul-lactao.netlify.app/)
+# Alishan - Finch Tea
+  -Live Site URL: [https://finch-tea.vercel.app/](https://finch-tea.vercel.app/)
   
-## Table of contents
-
-- [Overview](#overview)
-  - [Screenshot](#screenshot)
-  - [Links](#links)
-- [My Process](#process)
-  - [Install Dependencies](#dependencies)
-  - [Additional Info](#additional-info)
-  - [Errors](#errors)
-  - [Built With](#built-with)
-- [Author](#author)
-
-## Overview
-
-### Screenshot
-
-![](./_readme_img/portfolio.png)
-
-### Links
-
-  -Live Site URL: [https://jul-lactao.netlify.app/](https://jul-lactao.netlify.app/)
-
 # My Process
 
 ## Install NEXT.js
