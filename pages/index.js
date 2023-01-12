@@ -13,8 +13,8 @@ export default function Home({ pizzaList, admin }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>Finch Restaurant</title>
-        <meta name="description" content="Best Restaurant in Cebu" />
+        <title>Alishan</title>
+        <meta name="description" content="Best Milk Tea from Taiwan" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Featured/>
@@ -33,7 +33,7 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-  const res = await axios.get("http://finch-tea.vercel.app/api/products");
+  const res = await axios.get("https://finch-tea.vercel.app/api/products");
   return {
     props:{
       pizzaList: res.data,
