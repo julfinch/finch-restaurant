@@ -26,6 +26,15 @@
   color: #777;
 }
 
+@media (min-width: 481px) and (max-width: 750px) {
+  .title {
+    text-align: center;
+    font-weight: 300;
+    font-size: 80%;
+    width: 200%;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .container {
     width: 100%;

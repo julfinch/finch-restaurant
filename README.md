@@ -431,7 +431,7 @@
             }
 
             export const getServerSideProps = async () => {
-            const res = await axios.get("http://localhost:3000/api/products");
+            const res = await axios.get("https://finch-tea.vercel.app/api/products");
             return {
                 props:{
                 pizzaList: res.data,
@@ -928,7 +928,7 @@
 
         const handleClick = async () => {
             try {
-            await axios.post("http://localhost:3000/api/login", {
+            await axios.post("https://finch-tea.vercel.app/api/login", {
                 username,
                 password,
             });
@@ -980,8 +980,8 @@
             };
         }
 
-        const productRes = await axios.get("http://localhost:3000/api/products");
-        const orderRes = await axios.get("http://localhost:3000/api/orders");
+        const productRes = await axios.get("https://finch-tea.vercel.app/api/products");
+        const orderRes = await axios.get("https://finch-tea.vercel.app/api/orders");
 
         return {
             props: {
@@ -1056,7 +1056,7 @@
             admin = true;
         }
 
-        const res = await axios.get("http://localhost:3000/api/products");
+        const res = await axios.get("https://finch-tea.vercel.app/api/products");
         return {
             props:{
             pizzaList: res.data,

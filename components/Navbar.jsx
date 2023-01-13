@@ -23,10 +23,7 @@ const Navbar = () => {
             <li className={styles.listItem}>Homepage</li>
           </Link>
           <li className={styles.listItem}>Products</li>
-          <li className={styles.listItem}>Menu</li>
           <li className={styles.listItem}>Events</li>
-          <li className={styles.listItem}>Blog</li>
-          <li className={styles.listItem}>Contact</li>
         </ul>
       </div>
       <Link href="/cart" passHref>

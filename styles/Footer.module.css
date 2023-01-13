@@ -35,6 +35,22 @@
   color: rgb(211, 211, 211);
 }
 
+@media (min-width: 481px) and (max-width: 750px) {
+  .text {
+    text-align: center;
+    font-size: 90%;
+  }
+  .title {
+    text-align: center;
+  }
+  .container {
+    height: calc(90vh - 100px);
+  }
+  .item:first-child {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .container {
     height: auto;

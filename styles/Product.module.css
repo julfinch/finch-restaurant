@@ -96,6 +96,28 @@
   cursor: pointer;
 }
 
+@media (min-width: 481px) and (max-width: 650px) {
+  .imgContainer {
+    width: 70vw;
+    height: 70vw;
+  }
+  .container {
+    height: auto;
+    text-align: center;
+    flex-direction: column;
+    margin-top: 20px;
+  }
+  .sizes {
+    padding: 0 50px;
+    width: 100%;
+    text-align: center;
+  }
+  .ingredients {
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .container {
     height: auto;

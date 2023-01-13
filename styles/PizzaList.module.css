@@ -19,9 +19,27 @@
   flex-wrap: wrap;
 }
 
+@media (min-width: 481px) and (max-width: 750px) {
+  .title {
+    text-align: center;
+    font-size: 180%;
+    width: 70%;
+  }
+  .wrapper {
+    gap: 40px;
+  }
+
+  .desc {
+    width: 90%;
+    font-size: 100%;
+    text-align: center;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .title {
     text-align: center;
+    width: 70%;
   }
 
   .desc {

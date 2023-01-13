@@ -81,6 +81,19 @@
   cursor: not-allowed;
 }
 
+@media (min-width: 481px) and (max-width: 750px) {
+  .container {
+    flex-direction: column;
+  }
+  .wrapper{
+    margin-top: 30px;
+    width: 100%;
+  }
+  .row:last-child {
+    width: 100%;
+  }
+}
+
 @media screen and (max-width: 480px) {
   .container {
     flex-direction: column;
