@@ -17,6 +17,11 @@
   position: relative;
 }
 
+.payButton {
+  border-radius: 5px;
+  border: none;
+}
+
 .table {
   width: 100%;
   border-spacing: 20px;
@@ -55,6 +60,8 @@
   font-weight: bold;
   cursor: pointer;
   margin-top: 20px;
+  border: none;
+  border-radius: 5px;
 }
 
 

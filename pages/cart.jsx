@@ -16,6 +16,7 @@ const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const [open, setOpen] = useState(false);
   const [cash, setCash] = useState(false);
+  const [close, setClose] = useState(true);
   const amount = cart.total;
   const currency = "USD";
   const style = { layout: "vertical" };
@@ -160,7 +161,7 @@ const Cart = () => {
             <div className={styles.paymentMethods}>
               <button
                 className={styles.payButton}
-                onClick={() => setCash(true)}
+                onClick={() => {setCash(true); setClose(false);}}
               >
                 CASH ON DELIVERY
               </button>
@@ -183,7 +184,7 @@ const Cart = () => {
           )}
         </div>
       </div>
-      {cash && <OrderDetail total={cart.total} createOrder={createOrder} />}
+      {cash && !close && <OrderDetail total={cart.total} setClose={setClose} createOrder={createOrder} />}
     </div>
   );
 };

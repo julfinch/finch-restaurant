@@ -1,6 +1,8 @@
 import axios from "axios";
 import Image from "next/image";
 import { useState } from "react";
+import {MdDeleteForever} from "react-icons/md";
+import {FaEdit} from "react-icons/fa"
 import styles from "../../styles/Admin.module.css";
 
 const Index = ({ orders, products }) => {
@@ -67,12 +69,12 @@ const Index = ({ orders, products }) => {
                 <td>{product.title}</td>
                 <td>${product.prices[0]}</td>
                 <td>
-                  <button className={styles.button}>Edit</button>
+                  <button className={styles.button}><FaEdit size={20}/></button>
                   <button
                     className={styles.button}
                     onClick={() => handleDelete(product._id)}
                   >
-                    Delete
+                    <MdDeleteForever size={20}/>
                   </button>
                 </td>
               </tr>
@@ -104,7 +106,7 @@ const Index = ({ orders, products }) => {
                 </td>
                 <td>{status[order.status]}</td>
                 <td>
-                  <button onClick={() => handleStatus(order._id)}>
+                  <button  className={styles.button2} onClick={() => handleStatus(order._id)}>
                     Next Stage
                   </button>
                 </td>
