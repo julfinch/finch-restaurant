@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.item}>
-        <Image src="/img/footer2.jpg" objectFit="contain" layout="fill" alt="" />
+        <Image src="/img/footer2.jpg" objectFit="contain" layout="fill" alt=""  className={styles.image}/>
       </div>
       <div className={styles.item}>
         <div className={styles.card}>

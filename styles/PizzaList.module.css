@@ -40,10 +40,12 @@
   .title {
     text-align: center;
     width: 70%;
+    font-size: 120%;
   }
 
   .desc {
     width: 90%;
     text-align: center;
+    font-size: 90%;
   }
 }

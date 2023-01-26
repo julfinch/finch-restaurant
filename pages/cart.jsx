@@ -130,14 +130,14 @@ const Cart = () => {
                   </span>
                 </td>
                 <td>
-                  <span className={styles.price}>${product.price}</span>
+                  <span className={styles.price}>₱ {product.price}</span>
                 </td>
                 <td>
                   <span className={styles.quantity}>{product.quantity}</span>
                 </td>
                 <td>
                   <span className={styles.total}>
-                    ${product.price * product.quantity}
+                  ₱ {product.price * product.quantity}
                   </span>
                 </td>
               </tr>
@@ -149,13 +149,13 @@ const Cart = () => {
         <div className={styles.wrapper}>
           <h2 className={styles.title}>CART TOTAL</h2>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Subtotal:</b>${cart.total}
+            <b className={styles.totalTextTitle}>Subtotal:</b>₱ {cart.total}
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Discount:</b>$0.00
+            <b className={styles.totalTextTitle}>Discount:</b>₱ 0.00
           </div>
           <div className={styles.totalText}>
-            <b className={styles.totalTextTitle}>Total:</b>${cart.total}
+            <b className={styles.totalTextTitle}>Total:</b>₱ {cart.total}
           </div>
           {open ? (
             <div className={styles.paymentMethods}>

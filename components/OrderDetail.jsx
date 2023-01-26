@@ -15,11 +15,11 @@ const OrderDetail = ({ total, createOrder, setClose }) => {
         <span onClick={() => setClose(true)} className={styles.close}>
           X
         </span>
-        <h1 className={styles.title}>You will pay $12 after delivery.</h1>
+        <h1 className={styles.title}>You will pay ₱12 after delivery.</h1>
         <div className={styles.item}>
           <label className={styles.label}>Name Surname</label>
           <input
-            placeholder="John Doe"
+            placeholder="Maria Maliksi"
             type="text"
             className={styles.input}
             onChange={(e) => setCustomer(e.target.value)}
@@ -29,7 +29,7 @@ const OrderDetail = ({ total, createOrder, setClose }) => {
           <label className={styles.label}>Phone Number</label>
           <input
             type="text"
-            placeholder="+1 234 567 89"
+            placeholder="09324503456"
             className={styles.input}
           />
         </div>
@@ -37,7 +37,7 @@ const OrderDetail = ({ total, createOrder, setClose }) => {
           <label className={styles.label}>Address</label>
           <textarea
             rows={5}
-            placeholder="Elton St. 505 NY"
+            placeholder="323 Samat St. Mandaluyong City"
             type="text"
             className={styles.textarea}
             onChange={(e) => setAddress(e.target.value)}

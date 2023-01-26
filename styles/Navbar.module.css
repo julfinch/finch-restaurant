@@ -88,11 +88,21 @@
   }
   
   @media screen and (max-width:480px) {
+    .container {
+      height: 80px;
+      padding: 0px 15px;
+    }
     .item:nth-child(2) {
       display: none;
     }
   
     .item:nth-child(1) {
       flex: 3;
+    }
+
+    .logo{
+      margin-top: 14px;
+      width: 60%;
+      height: 60%;
     }
   }
