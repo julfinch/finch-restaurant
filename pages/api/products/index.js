@@ -24,9 +24,15 @@ export default async function handler(req, res) {
     try {
       const product = await Product.create(req.body);
       res.setHeader("Allow", "POST");
+      res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
       res.status(201).json(product);
     } catch (err) {
       res.status(500).json(err);
     }
+  }
+
+  if (method === "OPTIONS") {
+    res.header("Access-Control-Allow-Methods", "PUT, POST, PATCH, DELETE, GET");
+    return res.status(200).json({});
   }
 }
