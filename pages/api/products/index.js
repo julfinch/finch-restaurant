@@ -23,6 +23,7 @@ export default async function handler(req, res) {
     // }
     try {
       const product = await Product.create(req.body);
+      res.setHeader("Allow", "POST");
       res.status(201).json(product);
     } catch (err) {
       res.status(500).json(err);
