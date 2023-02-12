@@ -19,14 +19,6 @@ const nextConfig = {
       }
     ]
   },
-  async rewrites() {
-    return [
-      {
-        source: '/api/:path*',
-        destination: 'https://finch-pro.vercel.app/:path*',
-      },
-    ]
-  },
 }
 
 module.exports = nextConfig
