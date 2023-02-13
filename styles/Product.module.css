@@ -2,7 +2,9 @@
   height: calc(100vh - 100px);
   display: flex;
 }
-
+.choose {
+  text-align: center;
+}
 .left {
   flex: 1;
   height: 100%;
@@ -11,9 +13,21 @@
   justify-content: center;
 }
 
+.add {
+  display: inline-flex;
+  background: #fff;
+  height: 80px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  padding: 20px 15px;
+  box-shadow: 5px 5px 30px rgba(0,0,0,0.2);
+}
+
 .right {
   flex: 1;
-  padding: 20px;
+  padding: 20px 80px 20px 20px;
 }
 
 .imgContainer {
@@ -26,7 +40,15 @@
   color: #d1411e;
   font-size: 24px;
   font-weight: 400;
-  border-bottom: 1px solid #d1411e;
+  background: #fff;
+  height: 100%;
+  width: 30%;
+  text-align: center;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 3px;
+  border: 2px solid lightgrey;
 }
 
 .sizes {
@@ -35,22 +57,6 @@
   justify-content: space-between;
 }
 
-.size {
-  width: 30px;
-  height: 30px;
-  position: relative;
-  cursor: pointer;
-}
-
-.size:nth-child(2) {
-  width: 40px;
-  height: 40px;
-}
-
-.size:last-child {
-  width: 50px;
-  height: 50px;
-}
 
 .number {
   position: absolute;
@@ -65,7 +71,6 @@
 
 .ingredients {
   display: flex;
-  margin-bottom: 30px;
 }
 
 .option {
@@ -82,18 +87,26 @@
 }
 
 .quantity {
-  width: 50px;
-  height: 30px;
+  width: 90px;
+  height: 100%;
+  font-size: 18px;
 }
 
 .button {
-  height: 30px;
+  height: 100%;
   margin-left: 10px;
   background-color: #d1411e;
   color: white;
   border: none;
+  width: 100%;
   font-weight: 500;
+  margin: 0 10px;
+  border-radius: 5px;
   cursor: pointer;
+  padding: 0 10px;
+  border: 2px solid #d1411e;
+  transition: all 0.3s ease;
+  font-size: 17px;
 }
 
 @media (min-width: 481px) and (max-width: 650px) {
@@ -101,6 +114,10 @@
     width: 70vw;
     height: 70vw;
   }
+  .right {
+  flex: 1;
+  padding: 20px 20px 20px 20px;
+}
   .container {
     height: auto;
     text-align: center;
@@ -125,7 +142,10 @@
     flex-direction: column;
     margin-top: 20px;
   }
-
+  .right {
+    flex: 1;
+    padding: 20px 20px 20px 20px;
+  }
   .imgContainer {
     width: 70vw;
     height: 70vw;

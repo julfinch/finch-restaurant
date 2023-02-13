@@ -46,11 +46,32 @@ const Product = ({ pizza }) => {
         </div>
       </div>
       <div className={styles.right}>
-        <h1 className={styles.title}>{pizza.title}</h1>
+        <div class="wrapper-title">
+        <h3 className={styles.title}>{pizza.title}</h3>
         <span className={styles.price}>₱ {price}</span>
+        
+        </div>
         <p className={styles.desc}>{pizza.desc}</p>
         <h3 className={styles.choose}>Choose the size</h3>
-        <div className={styles.sizes}>
+        <div class="wrapper">
+          <input type="radio" name="select" id="option-1" onClick={() => handleSize(0)}/>
+          <input type="radio" name="select" id="option-2" onClick={() => handleSize(1)}/>
+          <input type="radio" name="select" id="option-3" onClick={() => handleSize(2)}/>
+
+            <label for="option-1" class="option option-1">
+                <Image src="/img/size.png" width="20" height="20" alt="" />
+                <span>Small</span>
+                </label>
+            <label for="option-2" class="option option-2">
+                <Image src="/img/size.png" width="30" height="30" alt="" />
+                <span>Medium</span>
+            </label>
+            <label for="option-3" class="option option-3">
+                <Image src="/img/size.png" width="40" height="40" alt="" />
+                <span>Large</span>
+            </label>
+        </div>
+        {/* <div className={styles.sizes}>
           <div className={styles.size} onClick={() => handleSize(0)}>
             <Image src="/img/size.png" layout="fill" alt="" />
             <span className={styles.number}>Small</span>
@@ -63,8 +84,9 @@ const Product = ({ pizza }) => {
             <Image src="/img/size.png" layout="fill" alt="" />
             <span className={styles.number}>Large</span>
           </div>
-        </div>
+        </div> */}
         <h3 className={styles.choose}>Choose additional ingredients</h3>
+        <div class="wrapper-ingredients">
         <div className={styles.ingredients}>
           {pizza.extraOptions.map((option) => (
             <div className={styles.option} key={option._id}>
@@ -78,6 +100,7 @@ const Product = ({ pizza }) => {
               <label htmlFor="double">{option.text}</label>
             </div>
           ))}
+        </div>
         </div>
         <div className={styles.add}>
           <input

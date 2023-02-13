@@ -15,3 +15,91 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.wrapper{
+  display: inline-flex;
+  background: #fff;
+  height: 100px;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  padding: 20px 15px;
+  box-shadow: 5px 5px 30px rgba(0,0,0,0.2);
+}
+.wrapper-title{
+  display: flex;
+  background: #fff;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 5px;
+  padding: 3px 15px;
+  box-shadow: 5px 5px 30px rgba(0,0,0,0.2);
+}
+.wrapper-ingredients{
+  display: inline-flex;
+  background: #fff;
+  width: 100%;
+  align-items: center;
+  justify-content: space-evenly;
+  border-radius: 5px;
+  padding: 25px 15px;
+  margin-bottom: 20px;
+  box-shadow: 5px 5px 30px rgba(0,0,0,0.2);
+}
+.wrapper .option{
+  background: #fff;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 0 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 0 10px;
+  border: 2px solid lightgrey;
+  transition: all 0.3s ease;
+}
+input[type="radio"]{
+  display: none;
+}
+#option-1:checked:checked ~ .option-1,
+#option-3:checked:checked ~ .option-3,
+#option-2:checked:checked ~ .option-2{
+  border-color: #d1411e;
+  background: #d1411e;
+}
+#option-1:checked:checked ~ .option-1 .dot,
+#option-3:checked:checked ~ .option-3 .dot,
+#option-2:checked:checked ~ .option-2 .dot{
+  background: #fff;
+}
+.wrapper .option span{
+  font-size: 17px;
+  color: #808080;
+}
+#option-1:checked:checked ~ .option-1 span,
+#option-3:checked:checked ~ .option-3 span,
+#option-2:checked:checked ~ .option-2 span{
+  color: #fff;
+}
+
+@media screen and (max-width: 480px) {
+  .wrapper {
+    height: auto;
+    text-align: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .wrapper .option{
+    height: 50px;
+  }
+  .wrapper-title{
+    flex-direction: column;
+    padding: 14px 15px;
+    width: 100%;
+  }
+  
+}
